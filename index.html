@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANTIFY — Ultra-Lightweight Day Widget</title>
+    <style>
+        /* Base Styling & Typography */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Syncopate:wght@700&display=swap');
+
+        :root {
+            --bg-dark: #0a0a0c;
+            --accent-glow: #e2e8f0;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Container Layout */
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header / Logo Section */
+        header {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 24px;
+            letter-spacing: 6px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            animation: pulseGlow 4s infinite alternate;
+        }
+
+        /* Hero / Cinematic Section */
+        .hero {
+            padding: 100px 0 60px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        h1.title {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 700;
+            letter-spacing: 16px;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            color: transparent;
+            background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.4) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: slideUpFade 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .tagline {
+            font-size: clamp(16px, 2.5vw, 20px);
+            color: var(--text-muted);
+            font-weight: 300;
+            letter-spacing: 2px;
+            max-width: 600px;
+            margin: 0 auto 48px auto;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 0.8s;
+        }
+
+        /* Big Download Button */
+        .cta-container {
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1.2s;
+            margin-bottom: 80px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background-color: var(--text-main);
+            color: var(--bg-dark);
+            padding: 18px 48px;
+            border-radius: 4px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 0px rgba(255, 255, 255, 0);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
+            background-color: #ffffff;
+        }
+
+        .download-btn svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .download-btn:hover svg {
+            transform: translateY(2px);
+        }
+
+        /* Smart Screen / Defender Note Box */
+        .defender-warning {
+            background: rgba(245, 158, 11, 0.04);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 6px;
+            padding: 24px;
+            max-width: 700px;
+            margin: 0 auto 80px auto;
+            text-align: left;
+            display: flex;
+            gap: 16px;
+        }
+
+        .defender-icon {
+            color: #f59e0b;
+            flex-shrink: 0;
+        }
+
+        .defender-text h3 {
+            font-size: 16px;
+            color: #fde68a;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .defender-text p {
+            font-size: 14px;
+            color: #d97706;
+            line-height: 1.5;
+        }
+
+        .defender-highlight {
+            color: #ffffff;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        /* Showcase Grid / Images */
+        .showcase {
+            margin-bottom: 100px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1.5s;
+        }
+
+        .image-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .image-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .preview-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .preview-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .preview-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Setup Instructions Section */
+        .instructions {
+            border-top: 1px solid var(--border-color);
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 20px;
+            letter-spacing: 4px;
+            margin-bottom: 48px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .steps-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .step-item {
+            position: relative;
+        }
+
+        .step-num {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 36px;
+            color: rgba(255, 255, 255, 0.05);
+            position: absolute;
+            top: -20px;
+            left: 0;
+            z-index: -1;
+        }
+
+        .step-item h4 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .step-item p {
+            font-size: 15px;
+            color: var(--text-muted);
+        }
+
+        /* Tech Specs Grid */
+        .specs {
+            background: rgba(255, 255, 255, 0.01);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 60px 0;
+        }
+
+        .specs-inner {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .specs-inner {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .spec-card h5 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .spec-card p {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1px;
+        }
+
+        /* Animations */
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 0px rgba(255, 255, 255, 0); }
+            100% { text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="wrapper logo-container">
+            <div class="logo">Antify</div>
+            <div style="font-size: 14px; letter-spacing: 1px; color: var(--text-muted);">v1.0.0</div>
+        </div>
+    </header>
+
+    <main class="wrapper">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1 class="title">Antify</h1>
+            <p class="tagline">An ultra-lightweight, zero-bloat Windows floating desktop day widget powered by pure Win32 API.</p>
+            
+            <div class="cta-container">
+                <!-- Points to the bundle ZIP package -->
+                <a href="Antify.zip" class="download-btn">
+                    <span>Download Package (.ZIP)</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <polyline points="19 12 12 19 5 12"></polyline>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- SmartScreen Alert Box -->
+            <div class="defender-warning">
+                <div class="defender-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </div>
+                <div class="defender-text">
+                    <h3>Windows SmartScreen Note</h3>
+                    <p>Because this app is a custom-compiled, unsigned native C executable, Windows Defender may initially display a warning dialog. Rest assured, the application contains <strong>zero tracking or background bloat</strong>. Simply click <span class="defender-highlight">More Info</span> and select <span class="defender-highlight">Run anyway</span> to launch it.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Previews Section -->
+        <section class="showcase">
+            <div class="image-container">
+                <div class="preview-card">
+                    <img src="photo1.jpg" alt="Antify Cyberpunk Setup View">
+                </div>
+                <div class="preview-card">
+                    <img src="photo2.jpg" alt="Antify Industrial Rain View">
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Setup Steps -->
+        <section class="instructions">
+            <h2 class="section-title">Deployment Steps</h2>
+            <div class="steps-grid">
+                <div class="step-item">
+                    <div class="step-num">01</div>
+                    <h4>Extract the Bundle</h4>
+                    <p>Download and extract the <code>Antify.zip</code> archive directly into a dedicated folder on your local drive.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">02</div>
+                    <h4>Verify Folder Layout</h4>
+                    <p>Ensure the <code>DayWidget.exe</code> program file remains alongside the pre-configured <code>Font/</code> subdirectory containing your typography files.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">03</div>
+                    <h4>Run and Float</h4>
+                    <p>Double-click the executable to launch it contextually over your desktop layer. Drag to position anywhere; right-click to toggle persistent click-through parameters.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Architecture Metrics Section -->
+    <section class="specs">
+        <div class="wrapper specs-inner">
+            <div class="spec-card">
+                <h5>RAM Profile</h5>
+                <p>~3 - 8 MB</p>
+            </div>
+            <div class="spec-card">
+                <h5>CPU Footprint</h5>
+                <p>~0.0%</p>
+            </div>
+            <div class="spec-card">
+                <h5>Dependencies</h5>
+                <p>Pure Win32</p>
+            </div>
+            <div class="spec-card">
+                <h5>Config Save</h5>
+                <p>Local .INI</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="wrapper">
+            <p>ANTIFY Open Source Project &copy; 2026. Made with lightweight precision.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
