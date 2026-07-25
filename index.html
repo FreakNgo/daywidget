@@ -144,33 +144,33 @@
             transform: translateY(3px);
         }
 
-        /* Coffee Button Styling */
+        /* Enhanced High-Attention Yellow Coffee Button */
         .coffee-btn {
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background-color: transparent;
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
+            background-color: var(--alert-accent);
+            color: var(--bg-dark);
+            border: 1px solid transparent;
             padding: 20px 36px;
             border-radius: 30px;
             font-family: 'Space Grotesk', sans-serif;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 0px rgba(245, 158, 11, 0);
         }
 
         .coffee-btn:hover {
-            background-color: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-4px);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(245, 158, 11, 0.2);
+            background-color: #fbbf24; /* Slightly brighter highlight yellow */
         }
 
         .coffee-btn svg {
             width: 18px;
             height: 18px;
-            opacity: 0.8;
         }
 
         /* Modal Structure for QR Popup */
@@ -500,9 +500,9 @@
                         <polyline points="19 12 12 19 5 12"></polyline>
                     </svg>
                 </a>
-                <!-- New Buy Me A Coffee Button -->
+                <!-- Updated Vibrant Yellow Coffee Button -->
                 <button class="coffee-btn" id="coffeeBtn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
                         <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
                         <line x1="6" y1="1" x2="6" y2="4"></line>
