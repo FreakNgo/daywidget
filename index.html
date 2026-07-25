@@ -99,8 +99,13 @@
             animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
         }
 
-        /* Big Download Button */
+        /* CTA Button Container Layout */
         .cta-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
             opacity: 0;
             animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s;
             margin-bottom: 64px;
@@ -113,7 +118,7 @@
             background-color: var(--text-main);
             color: var(--bg-dark);
             padding: 20px 44px;
-            border-radius: 30px; /* Modern rounded capsule style */
+            border-radius: 30px;
             font-family: 'Space Grotesk', sans-serif;
             font-size: 16px;
             font-weight: 600;
@@ -137,6 +142,109 @@
 
         .download-btn:hover svg {
             transform: translateY(3px);
+        }
+
+        /* Coffee Button Styling */
+        .coffee-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 20px 36px;
+            border-radius: 30px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .coffee-btn:hover {
+            background-color: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .coffee-btn svg {
+            width: 18px;
+            height: 18px;
+            opacity: 0.8;
+        }
+
+        /* Modal Structure for QR Popup */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(7, 7, 8, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 24px;
+            border-radius: 24px;
+            max-width: 360px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .qr-image {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 20px;
+            transition: color 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            color: var(--text-main);
+        }
+
+        .modal-title {
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-transform: uppercase;
         }
 
         /* Modernized Sleek Alert Box */
@@ -392,6 +500,17 @@
                         <polyline points="19 12 12 19 5 12"></polyline>
                     </svg>
                 </a>
+                <!-- New Buy Me A Coffee Button -->
+                <button class="coffee-btn" id="coffeeBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                        <line x1="6" y1="1" x2="6" y2="4"></line>
+                        <line x1="10" y1="1" x2="10" y2="4"></line>
+                        <line x1="14" y1="1" x2="14" y2="4"></line>
+                    </svg>
+                    <span>Buy me a coffee!</span>
+                </button>
             </div>
 
             <!-- Modernized SmartScreen Alert Box -->
@@ -473,5 +592,37 @@
         </div>
     </footer>
 
+    <!-- QR Code Popup Modal Overlay -->
+    <div class="modal-overlay" id="qrModal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="closeBtn">&times;</button>
+            <img src="qr.jpg" alt="Support QR Code" class="qr-image">
+            <div class="modal-title">Scan to Support</div>
+        </div>
+    </div>
+
+    <!-- Modal Interaction Script -->
+    <script>
+        const coffeeBtn = document.getElementById('coffeeBtn');
+        const qrModal = document.getElementById('qrModal');
+        const closeBtn = document.getElementById('closeBtn');
+
+        // Open Modal
+        coffeeBtn.addEventListener('click', () => {
+            qrModal.classList.add('active');
+        });
+
+        // Close Modal via Button
+        closeBtn.addEventListener('click', () => {
+            qrModal.classList.remove('active');
+        });
+
+        // Close Modal by clicking backdrop outside content card
+        qrModal.addEventListener('click', (e) => {
+            if (e.target === qrModal) {
+                qrModal.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
