@@ -6,14 +6,22 @@
     <title>ANTIFY — Ultra-Lightweight Day Widget</title>
     <style>
         /* Base Styling & Typography */
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Syncopate:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syncopate:wght@700&display=swap');
 
         :root {
-            --bg-dark: #0a0a0c;
-            --accent-glow: #e2e8f0;
+            --bg-dark: #070708;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --accent-glow: rgba(255, 255, 255, 0.8);
             --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: rgba(255, 255, 255, 0.08);
+            --text-muted: #64748b;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --border-hover: rgba(255, 255, 255, 0.15);
+            
+            /* Modernized SmartScreen Alert Colors */
+            --alert-bg: rgba(245, 158, 11, 0.02);
+            --alert-border: rgba(245, 158, 11, 0.15);
+            --alert-accent: #f59e0b;
         }
 
         * {
@@ -28,18 +36,19 @@
             font-family: 'Space Grotesk', sans-serif;
             overflow-x: hidden;
             line-height: 1.6;
+            letter-spacing: -0.01em;
         }
 
         /* Container Layout */
         .wrapper {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
         /* Header / Logo Section */
         header {
-            padding: 40px 0;
+            padding: 32px 0;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -51,135 +60,150 @@
 
         .logo {
             font-family: 'Syncopate', sans-serif;
-            font-size: 24px;
-            letter-spacing: 6px;
+            font-size: 20px;
+            letter-spacing: 8px;
             color: var(--text-main);
             text-transform: uppercase;
-            animation: pulseGlow 4s infinite alternate;
+            font-weight: 700;
         }
 
         /* Hero / Cinematic Section */
         .hero {
-            padding: 100px 0 60px 0;
+            padding: 120px 0 60px 0;
             text-align: center;
             position: relative;
         }
 
         h1.title {
             font-family: 'Syncopate', sans-serif;
-            font-size: clamp(48px, 8vw, 96px);
+            font-size: clamp(54px, 10vw, 110px);
             font-weight: 700;
-            letter-spacing: 16px;
-            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+            line-height: 0.9;
+            margin-bottom: 32px;
             text-transform: uppercase;
             color: transparent;
-            background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.4) 100%);
+            background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.2) 100%);
             -webkit-background-clip: text;
             background-clip: text;
-            animation: slideUpFade 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .tagline {
-            font-size: clamp(16px, 2.5vw, 20px);
-            color: var(--text-muted);
+            font-size: clamp(16px, 2vw, 20px);
+            color: #94a3b8;
             font-weight: 300;
-            letter-spacing: 2px;
-            max-width: 600px;
+            max-width: 640px;
             margin: 0 auto 48px auto;
             opacity: 0;
-            animation: fadeIn 1s ease forwards 0.8s;
+            animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
         }
 
         /* Big Download Button */
         .cta-container {
             opacity: 0;
-            animation: fadeIn 1s ease forwards 1.2s;
-            margin-bottom: 80px;
+            animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s;
+            margin-bottom: 64px;
         }
 
         .download-btn {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
             background-color: var(--text-main);
             color: var(--bg-dark);
-            padding: 18px 48px;
-            border-radius: 4px;
+            padding: 20px 44px;
+            border-radius: 30px; /* Modern rounded capsule style */
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             text-decoration: none;
-            letter-spacing: 1px;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            letter-spacing: 0.5px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: 0 0 0px rgba(255, 255, 255, 0);
         }
 
         .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
             background-color: #ffffff;
         }
 
         .download-btn svg {
-            width: 20px;
-            height: 20px;
-            transition: transform 0.3s ease;
+            width: 18px;
+            height: 18px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .download-btn:hover svg {
-            transform: translateY(2px);
+            transform: translateY(3px);
         }
 
-        /* Smart Screen / Defender Note Box */
+        /* Modernized Sleek Alert Box */
         .defender-warning {
-            background: rgba(245, 158, 11, 0.04);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            border-radius: 6px;
-            padding: 24px;
-            max-width: 700px;
+            background: var(--alert-bg);
+            border: 1px solid var(--alert-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 20px 24px;
+            max-width: 680px;
             margin: 0 auto 80px auto;
             text-align: left;
             display: flex;
+            align-items: flex-start;
             gap: 16px;
+            opacity: 0;
+            animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s;
+            transition: border-color 0.3s;
+        }
+
+        .defender-warning:hover {
+            border-color: rgba(245, 158, 11, 0.3);
         }
 
         .defender-icon {
-            color: #f59e0b;
+            color: var(--alert-accent);
             flex-shrink: 0;
+            margin-top: 2px;
+            opacity: 0.8;
         }
 
         .defender-text h3 {
-            font-size: 16px;
-            color: #fde68a;
-            margin-bottom: 6px;
-            letter-spacing: 0.5px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .defender-text p {
             font-size: 14px;
-            color: #d97706;
-            line-height: 1.5;
+            color: #94a3b8;
+            line-height: 1.6;
         }
 
         .defender-highlight {
             color: #ffffff;
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2px 6px;
-            border-radius: 3px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 1px 6px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         /* Showcase Grid / Images */
         .showcase {
-            margin-bottom: 100px;
+            margin-bottom: 120px;
             opacity: 0;
-            animation: fadeIn 1s ease forwards 1.5s;
+            animation: fadeIn 1.5s ease forwards 0.6s;
         }
 
         .image-container {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 32px;
+            gap: 24px;
             margin-top: 40px;
         }
 
@@ -190,15 +214,17 @@
         }
 
         .preview-card {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            transition: border-color 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .preview-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--border-hover);
+            transform: translateY(-6px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
         }
 
         .preview-card img {
@@ -206,27 +232,33 @@
             height: auto;
             display: block;
             object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .preview-card:hover img {
+            transform: scale(1.03);
         }
 
         /* Setup Instructions Section */
         .instructions {
             border-top: 1px solid var(--border-color);
-            padding: 80px 0;
+            padding: 100px 0;
         }
 
         .section-title {
             font-family: 'Syncopate', sans-serif;
-            font-size: 20px;
-            letter-spacing: 4px;
-            margin-bottom: 48px;
+            font-size: 18px;
+            letter-spacing: 6px;
+            margin-bottom: 64px;
             text-transform: uppercase;
             text-align: center;
+            color: #94a3b8;
         }
 
         .steps-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 40px;
+            gap: 32px;
         }
 
         @media (min-width: 768px) {
@@ -236,42 +268,55 @@
         }
 
         .step-item {
-            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 40px 32px;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .step-item:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
         }
 
         .step-num {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 36px;
-            color: rgba(255, 255, 255, 0.05);
-            position: absolute;
-            top: -20px;
-            left: 0;
-            z-index: -1;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            display: inline-block;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 4px;
         }
 
         .step-item h4 {
             font-size: 18px;
+            font-weight: 500;
             margin-bottom: 12px;
             color: var(--text-main);
         }
 
         .step-item p {
             font-size: 15px;
-            color: var(--text-muted);
+            color: #94a3b8;
+            font-weight: 300;
         }
 
         /* Tech Specs Grid */
         .specs {
-            background: rgba(255, 255, 255, 0.01);
+            background: rgba(255, 255, 255, 0.005);
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
-            padding: 60px 0;
+            padding: 80px 0;
         }
 
         .specs-inner {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
+            gap: 32px;
             text-align: center;
         }
 
@@ -282,33 +327,35 @@
         }
 
         .spec-card h5 {
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--text-muted);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            font-weight: 500;
         }
 
         .spec-card p {
-            font-size: 20px;
-            font-weight: 500;
+            font-size: 22px;
+            font-weight: 400;
             color: var(--text-main);
+            letter-spacing: -0.5px;
         }
 
         /* Footer */
         footer {
-            padding: 40px 0;
+            padding: 48px 0;
             text-align: center;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 1px;
+            font-size: 13px;
+            color: #475569;
+            letter-spacing: 0.5px;
         }
 
-        /* Animations */
+        /* Advanced Animations */
         @keyframes slideUpFade {
             from {
                 opacity: 0;
-                transform: translateY(40px);
+                transform: translateY(24px);
             }
             to {
                 opacity: 1;
@@ -320,11 +367,6 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
-        @keyframes pulseGlow {
-            0% { text-shadow: 0 0 0px rgba(255, 255, 255, 0); }
-            100% { text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); }
-        }
     </style>
 </head>
 <body>
@@ -332,7 +374,7 @@
     <header>
         <div class="wrapper logo-container">
             <div class="logo">Antify</div>
-            <div style="font-size: 14px; letter-spacing: 1px; color: var(--text-muted);">v1.0.0</div>
+            <div style="font-size: 13px; letter-spacing: 1px; color: #64748b; font-weight: 500;">v1.0.0</div>
         </div>
     </header>
 
@@ -343,28 +385,27 @@
             <p class="tagline">An ultra-lightweight, zero-bloat Windows floating desktop day widget powered by pure Win32 API.</p>
             
             <div class="cta-container">
-                <!-- Points to the bundle ZIP package -->
                 <a href="Antify.zip" class="download-btn">
                     <span>Download Package (.ZIP)</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="12" y1="5" x2="12" y2="19"></line>
                         <polyline points="19 12 12 19 5 12"></polyline>
                     </svg>
                 </a>
             </div>
 
-            <!-- SmartScreen Alert Box -->
+            <!-- Modernized SmartScreen Alert Box -->
             <div class="defender-warning">
                 <div class="defender-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                        <line x1="12" y1="9" x2="12" y2="13"></line>
-                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
                     </svg>
                 </div>
                 <div class="defender-text">
-                    <h3>Windows SmartScreen Note</h3>
-                    <p>Because this app is a custom-compiled, unsigned native C executable, Windows Defender may initially display a warning dialog. Rest assured, the application contains <strong>zero tracking or background bloat</strong>. Simply click <span class="defender-highlight">More Info</span> and select <span class="defender-highlight">Run anyway</span> to launch it.</p>
+                    <h3>SmartScreen Notice</h3>
+                    <p>As an unsigned, custom-compiled native C executable, Windows Defender may show a prompt. Rest assured, the code contains <strong>zero tracking or bloat</strong>. Click <span class="defender-highlight">More Info</span> and select <span class="defender-highlight">Run anyway</span> to launch.</p>
                 </div>
             </div>
         </section>
@@ -386,17 +427,17 @@
             <h2 class="section-title">Deployment Steps</h2>
             <div class="steps-grid">
                 <div class="step-item">
-                    <div class="step-num">01</div>
+                    <div class="step-num">// 01</div>
                     <h4>Extract the Bundle</h4>
                     <p>Download and extract the <code>Antify.zip</code> archive directly into a dedicated folder on your local drive.</p>
                 </div>
                 <div class="step-item">
-                    <div class="step-num">02</div>
-                    <h4>Verify Folder Layout</h4>
+                    <div class="step-num">// 02</div>
+                    <h4>Verify Layout</h4>
                     <p>Ensure the <code>DayWidget.exe</code> program file remains alongside the pre-configured <code>Font/</code> subdirectory containing your typography files.</p>
                 </div>
                 <div class="step-item">
-                    <div class="step-num">03</div>
+                    <div class="step-num">// 03</div>
                     <h4>Run and Float</h4>
                     <p>Double-click the executable to launch it contextually over your desktop layer. Drag to position anywhere; right-click to toggle persistent click-through parameters.</p>
                 </div>
@@ -409,11 +450,11 @@
         <div class="wrapper specs-inner">
             <div class="spec-card">
                 <h5>RAM Profile</h5>
-                <p>~3 - 8 MB</p>
+                <p>3 - 8 MB</p>
             </div>
             <div class="spec-card">
                 <h5>CPU Footprint</h5>
-                <p>~0.0%</p>
+                <p>0.0%</p>
             </div>
             <div class="spec-card">
                 <h5>Dependencies</h5>
